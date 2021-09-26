@@ -1,0 +1,109 @@
+:root{
+    --black: #000;
+    --mainColor: rgb(3, 79, 221);
+    --red: red;
+}
+
+html{
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+
+*, *::after, *::before{
+    box-sizing: inherit;
+}
+
+body{
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+body>header{
+    height: 6rem;
+    display: flex;
+    align-items: center;
+    padding: 0 clamp(1.5rem, 5%, 5rem);
+}
+
+h1{
+    margin: 0;
+}
+
+body>footer{
+    height: 2rem;
+    display: flex;
+    align-items: center;
+}
+
+body>main{
+    width: 90%;
+    margin: 0 auto;
+}
+
+.rate-options-tabs{
+    display: flex;
+    justify-content: center;
+    gap: max(1rem, 7.5%);
+    padding: 0 1rem;
+    height: 6rem;
+
+}
+
+.tab-option-rate{
+    border: 1px solid var(--black);
+    border-bottom: none;
+    margin: 0;
+    padding: max(1rem, 2%); /* Revisar? */
+    max-width: 20rem;
+}
+
+.tab-option-rate:hover{
+    cursor: pointer;
+}
+.active-tab{
+    color: var(--mainColor);
+    border-color: var(--mainColor);
+}
+
+main>main{
+    height: calc(100% - 6rem);
+    padding: clamp(2rem, 5%, 5rem);
+    border: 1px solid var(--black);
+}
+
+.menu form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+}
+
+label{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+select, input[type="submit"]{
+    width: 100%;
+}
+
+
+/* Utilities */
+.display-none{
+    display: none;
+}
+
+.invalid-input{
+    border-color: var(--red);
+}
+
+.invalid-input-message{
+    color: var(--red);
+    margin: .5rem 0;
+    text-align: center;
+}

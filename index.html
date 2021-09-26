@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/styles.css">
+    <title>Exchange Rates</title>
+</head>
+<body>
+    <header>
+        <h1>Exchange Rate</h1>
+    </header>
+    <main>
+        <header class="rate-options-tabs">
+            <h2 class="tab-option-rate active-tab" id="exchange-rate">Get Exchange Rates</h2>
+            <h2 class="tab-option-rate" id="convert-currency">Convert to Currencies</h2>
+        </header>
+        <main>
+            <section class="menu exchange-rate-menu">
+                <form action="" class="" name="exchange-rate-form">
+                    <label for="exchange-rates-currency">
+                        <select class="currencies-selector" name="exchange-rates-currency" id="exchange-rates-currency">
+                            <option value="N/A" selected disabled>Please select a currency</option>
+                        </select>
+                    </label>
+                    <label for="exchange-rate-date">
+                        <input type="date" name="exchange-rate-date" id="exchange-rate-date" min="2000-01-01">
+                    </label>
+                        <input type="submit" value="Get Rates" id="request-exchange-rate">
+                </form>
+            </section>
+            <section class="menu convert-currency-menu display-none">
+                <form action="" class="" name="convert-currency-form">
+                    <label for="convert-currency-from">
+                        <select class="currencies-selector" name="convert-currency-from" id="convert-currency-from">
+                            <option value="N/A" selected disabled>Please select a currency</option>
+                        </select>
+                    </label>
+                    <label for="convert-currency-to">
+                        <select class="currencies-selector" name="convert-currency-to" id="convert-currency-to">
+                            <option value="N/A" selected disabled>Please select a currency</option>
+                        </select>
+                    </label>
+                    <label for="convert-currency-amount">
+                        <input type="number" name="convert-currency-amount" id="convert-currency-amount">
+                    </label>
+                    <label for="convert-currency-date">
+                        <input type="date" name="convert-currency-date" id="convert-currency-date" min="2000-01-01">
+                    </label>
+                        <input type="submit" value="Convert" id="request-convert-currency">
+                </form>
+            </section>
+        </main>
+    </main>
+    <footer>
+        Project by <a href="https://github.com/marmatva">MARMATVA</a>
+    </footer>
+
+    <script src="src/index.js" type="module"></script>
+</body>
+</html>
