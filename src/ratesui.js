@@ -1,8 +1,16 @@
 import {removeLoadingMessage} from './menuui.js'
+import { getTodaysDate } from './utilities.js';
+let displayResultsAllowed = true;
+
+export function allowDisplayResults(x=true){
+    displayResultsAllowed = x;
+}
 
 export function displayApiResponse(data, callback){
     removeLoadingMessage();
-    callback(data);
+    if(displayResultsAllowed){
+        callback(data);
+    }
 }
 
 function createRateCard(base, symbol, rate){
@@ -55,13 +63,7 @@ export function displayExchangeRates(data){
 }
 
 export function displayRateConversion(data){
-    let date = data.date;
-    let fromSymbol = data.query.from;
-    let toSymbol = data.query.to;
-    let fromAmount = data.query.amount;
-    let toAmount = data.result;
-
-    let rate = data.info.rate;
+    let {date, from: fromSymbol, to: toSymbol, amount: fromAmount, result: toAmount, rate } = data;
 
     let container = document.createElement('ARTICLE');
     container.classList.add('results-display');
@@ -69,7 +71,12 @@ export function displayRateConversion(data){
     heading.appendChild(document.createTextNode('Conversion Rate'))
 
     let conversionDetail = document.createElement('P');
-    conversionDetail.appendChild(document.createTextNode(`${fromAmount} ${fromSymbol} is equivalent to`));
+    if(date === getTodaysDate()){
+        conversionDetail.appendChild(document.createTextNode(`${fromAmount} ${fromSymbol} is equivalent to`));
+    } else{
+        conversionDetail.appendChild(document.createTextNode(`On ${date}, ${fromAmount} ${fromSymbol} where equivalent to`));
+    }
+    
     let conversionResult = document.createElement('SPAN');
     conversionResult.appendChild(document.createTextNode(`${toAmount} ${toSymbol}`));
     conversionDetail.appendChild(conversionResult);

@@ -170,6 +170,7 @@ label{
     flex-direction: column;
     align-items: center;
     width: clamp(20rem, 75%, 50rem);
+    margin-bottom: 2rem;
 }
 
 label>p{
@@ -183,12 +184,11 @@ label>p{
 input, select{
     width: 100%;
     padding: .7rem;
-    margin-bottom: 2rem;
     text-align: center;
     font-weight: 500;
 }
 
-#convert-currency-from{
+[name="convert-currency-form"] label:first-of-type{
     margin-bottom: .8rem;
 }
 

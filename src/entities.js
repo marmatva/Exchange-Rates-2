@@ -14,3 +14,22 @@ export class ConversionRequestParameters{
         this.amount = amount; 
     }
 }
+
+export class ExchangeRates{
+    constructor(data){
+        this.base = data.base;
+        this.date = data.date;
+        this.rates = data.rates;
+    }
+}
+
+export class ConversionRateResults{
+    constructor(data){
+        this.date = data.date;
+        this.from = data.query.from;
+        this.to = data.query.to;
+        this.rate = data.info.rate;
+        this.amount = data.query.amount;
+        this.result = data.result;
+    }
+}

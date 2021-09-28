@@ -1,15 +1,21 @@
-import {requestExchangeRates as requestExchangeRatesFromApi, requestCurrencyConversion as requestCurrencyConversionFromApi} from './api.js'
 import {ConversionRequestParameters} from './entities.js'
-import {removePreviousResults} from './ratesui.js'
+import {allowDisplayResults, removePreviousResults} from './ratesui.js'
+import {getCurrencyConversion, getExchangeRates, getSupportedSymbols} from './service.js'
+import {displayApiResponse, displayRateConversion, displayExchangeRates} from './ratesui.js'
+import { getTodaysDate } from './utilities.js'
 
 export function establishMaxDateOnInputs(){
     let dateInputs = document.querySelectorAll('input[type="date"]');
-    let todayDate= new Date();
-    let todayFormat = todayDate.toISOString().split('T')[0];
-    dateInputs.forEach(input => input.max = todayFormat)
+    let today = getTodaysDate()
+    dateInputs.forEach(input => input.max = today)
 }
 
-export function createSelectCurrenciesOptions(supportedCurrencies){
+export async function prepareSelectOptions(){
+    let supportedSymbols = await getSupportedSymbols();
+    createSelectCurrenciesOptions(supportedSymbols)
+}
+
+function createSelectCurrenciesOptions(supportedCurrencies){
     let keys = Object.keys(supportedCurrencies);
     let options = []
     keys.forEach(key => {
@@ -37,6 +43,8 @@ function incorporateOptionsToSelect(optionsArray){
 }
 
 export function manageTabSelection(e){
+    allowDisplayResults(false);
+
     let id = e.target.id;
     
     if(e.target.tagName !== "H2" || !document.querySelector(`.${id}-menu`).classList.contains('display-none')){
@@ -48,6 +56,7 @@ export function manageTabSelection(e){
     }
 
     removePreviousResults();
+    removeLoadingMessage();
     displayTabSelection(e.target);
 }
 
@@ -67,12 +76,9 @@ function displayTabSelection(tab){
     requiredSection.classList.remove('display-none');
 }
 
-export function showWarning(message){
-    alert(message);
-}
-
 export function manageRequestSubmitted(e){
     e.preventDefault();
+    allowDisplayResults();
     let form = e.target.parentElement;
     let invalidInputs = validateForm(form);
     let keys = Object.keys(invalidInputs);
@@ -109,6 +115,9 @@ function validateForm(form){
 
 function showInvalidInput(object){
     let element = object.element;
+    if(element.classList.contains('invalid-input')){
+        return;
+    }
     element.classList.add('invalid-input');
     element.addEventListener('change', reviewInputChange);
     let error = document.createElement('p');
@@ -137,10 +146,10 @@ function reviewInputChange(e){
 
 function removeInvalidStyle(input){
     input.classList.remove('invalid-input');
-    input.parentElement.querySelector('p').remove();
+    input.parentElement.querySelector('.invalid-input-message').remove();
 }
 
-function requestExchangeRates(form){
+async function requestExchangeRates(form){
     let base = form['exchange-rates-currency'].value;
     let date = form['exchange-rate-date'].value;
     if(!date){
@@ -148,10 +157,11 @@ function requestExchangeRates(form){
     }
 
     prepareToDisplayResponse(form.parentElement);
-    requestExchangeRatesFromApi(base, date);
+    let response = await getExchangeRates(base, date);
+    displayApiResponse(response, displayExchangeRates);
 }
 
-function requestCurrencyConversion(form){
+async function requestCurrencyConversion(form){
     let amount = form['convert-currency-amount'].value;
     let from = form['convert-currency-from'].value;
     let to = form['convert-currency-to'].value;
@@ -163,7 +173,8 @@ function requestCurrencyConversion(form){
     if(date){requestParameters.date = date}
 
     prepareToDisplayResponse(form.parentElement);
-    requestCurrencyConversionFromApi(requestParameters);
+    let response = await getCurrencyConversion(requestParameters);
+    displayApiResponse(response, displayRateConversion);
 }
 
 function prepareToDisplayResponse(menu){
@@ -185,5 +196,7 @@ function displayLoadingMessage(){
 }
 
 export function removeLoadingMessage(){
-    document.querySelector('.loading-container').remove();
+    if(document.querySelector('.loading-container')){
+        document.querySelector('.loading-container').remove();
+    }
 }
