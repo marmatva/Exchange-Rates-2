@@ -1,6 +1,8 @@
 import { showWarning, createSelectCurrenciesOptions } from "./menuui.js";
 import { CurrencyList } from "./entities.js";
 
+import {displayApiResponse, displayRateConversion, displayExchangeRates} from './ratesui.js'
+
 export function requestSupportedSymbols(){
     let requestURL = 'https://api.exchangerate.host/symbols';
     let request = new XMLHttpRequest();
@@ -17,7 +19,7 @@ export function requestSupportedSymbols(){
 }
 
 export function requestExchangeRates(base, date){
-    let requestURL = `https://api.exchangerate.host/${date}?base=${base}`;
+    let requestURL = `https://api.exchangerate.host/${date}?base=${base}&places=4`;
     let request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'json';
@@ -25,7 +27,7 @@ export function requestExchangeRates(base, date){
 
     request.onload = function() {
         let response = request.response;
-        console.log(response);
+        displayApiResponse(response, displayExchangeRates);
     }
 }
 
@@ -41,8 +43,8 @@ export function requestCurrencyConversion(object){
     request.send();
 
     request.onload = function() {
-    let response = request.response;
-    console.log(response);
+        let response = request.response;
+        displayApiResponse(response, displayRateConversion);
     }
 }
 

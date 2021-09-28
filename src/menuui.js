@@ -1,5 +1,6 @@
 import {requestExchangeRates as requestExchangeRatesFromApi, requestCurrencyConversion as requestCurrencyConversionFromApi} from './api.js'
 import {ConversionRequestParameters} from './entities.js'
+import {removePreviousResults} from './ratesui.js'
 
 export function establishMaxDateOnInputs(){
     let dateInputs = document.querySelectorAll('input[type="date"]');
@@ -36,11 +37,18 @@ function incorporateOptionsToSelect(optionsArray){
 }
 
 export function manageTabSelection(e){
-    if(e.target.tagName !== "H2" || e.target.classList.contains('active-tab')){
+    let id = e.target.id;
+    
+    if(e.target.tagName !== "H2" || !document.querySelector(`.${id}-menu`).classList.contains('display-none')){
         return;
     }
-    hidePreviousTabSelection();
-    displayTabSelection(e.target)
+
+    if(!e.target.classList.contains('active-tab')){
+        hidePreviousTabSelection();
+    }
+
+    removePreviousResults();
+    displayTabSelection(e.target);
 }
 
 
@@ -139,8 +147,8 @@ function requestExchangeRates(form){
         date = "latest"
     }
 
+    prepareToDisplayResponse(form.parentElement);
     requestExchangeRatesFromApi(base, date);
-
 }
 
 function requestCurrencyConversion(form){
@@ -154,6 +162,28 @@ function requestCurrencyConversion(form){
 
     if(date){requestParameters.date = date}
 
+    prepareToDisplayResponse(form.parentElement);
     requestCurrencyConversionFromApi(requestParameters);
+}
 
+function prepareToDisplayResponse(menu){
+    menu.classList.add('display-none');
+    displayLoadingMessage();
+}
+
+function displayLoadingMessage(){
+    let container = document.createElement('SECTION');
+    container.classList.add('loading-container')
+    let wheel = document.createElement('DIV');
+    wheel.classList.add('loading-wheel');
+    let message = document.createElement('P');
+    message.classList.add('loading-message')
+    message.appendChild(document.createTextNode('Loading Results'));
+    container.appendChild(message);
+    container.appendChild(wheel);
+    document.querySelector('main main').appendChild(container);
+}
+
+export function removeLoadingMessage(){
+    document.querySelector('.loading-container').remove();
 }
