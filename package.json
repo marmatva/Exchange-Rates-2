@@ -1,0 +1,24 @@
+{
+  "name": "exchange-rates-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1", 
+    "cypress-dev": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marmatva/Exchange-Rates-2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marmatva/Exchange-Rates-2/issues"
+  },
+  "homepage": "https://github.com/marmatva/Exchange-Rates-2#readme",
+  "devDependencies": {
+    "cypress": "^8.5.0",
+    "http-server": "^13.0.2"
+  }
+}
