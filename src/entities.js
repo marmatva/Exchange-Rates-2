@@ -26,10 +26,10 @@ export class ExchangeRates{
 export class ConversionRateResults{
     constructor(data){
         this.date = data.date;
-        this.from = data.query.from;
-        this.to = data.query.to;
-        this.rate = data.info.rate;
-        this.amount = data.query.amount;
+        this.from = data.from;
+        this.to = data.to;
+        this.rate = data.rate;
+        this.amount = data.amount;
         this.result = data.result;
     }
 }

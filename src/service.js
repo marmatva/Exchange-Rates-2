@@ -2,6 +2,7 @@ import {getFromLocalStorage, saveInLocalStorage} from './storage.js'
 import {ExchangeRates, CurrencyList, ConversionRateResults} from './entities.js'
 import {requestExchangeRates, requestCurrencyConversion, requestSupportedSymbols} from './api.js'
 import { calculateConversion, getTodaysDate } from './utilities.js'
+import { mapCurrencyConversion, mapCurrencyList, mapExchangeRates } from './mapper.js';
 
 function getExchangeRateKey(base, date){
     if(date==="latest"){
@@ -28,7 +29,7 @@ export async function getSupportedSymbols(){
         return response
     }catch(e){
         let response = await requestSupportedSymbols();
-        let results = new CurrencyList(response.symbols);
+        let results = mapCurrencyList(response);
         saveInLocalStorage(key, results);
         return results
     }
@@ -44,7 +45,7 @@ export async function getExchangeRates(base, date){
         }
         return response;
     } catch (e){
-        let response = new ExchangeRates(await requestExchangeRates(base, date));        
+        let response = mapExchangeRates(await requestExchangeRates(base, date));        
         saveInLocalStorage(key, response);
         return response
     }
@@ -63,7 +64,7 @@ export async function getCurrencyConversion(object){
         return response
     } catch(e){
         let response = await requestCurrencyConversion(object);
-        let result = new ConversionRateResults(response);
+        let result = mapCurrencyConversion(response);
         saveInLocalStorage(key, result);
         return result
     }

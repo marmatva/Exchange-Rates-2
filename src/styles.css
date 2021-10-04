@@ -197,7 +197,6 @@ option{
 }
 
 input[type="submit"]{
-    width: 100%;
     margin-bottom: 0;
     background-color: var(--mainColor);
     border: none;
@@ -208,8 +207,13 @@ input[type="submit"]{
     font-weight: 500;
     margin-top: 1.5rem;
     border-radius: 1rem;
+    transition: transform .5s;
 }
 
+input[type="submit"]:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+}
 .loading-container{
     width: 100%;
     text-align: center;
