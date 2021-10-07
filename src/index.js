@@ -1,8 +1,12 @@
-import {manageTabSelection, prepareSelectOptions,establishMaxDateOnInputs, manageRequestSubmitted} from './menuui.js'
+import {manageTabSelection, prepareSelectOptions,establishMaxDateOnInputs} from './menuui.js'
+import {manageRequestSubmitted, requestExchangeRates, requestCurrencyConversion} from './form.js'
 
-document.querySelector('.rate-options-tabs').addEventListener('click', manageTabSelection);
-document.querySelector('#request-exchange-rate').addEventListener('click', manageRequestSubmitted);
-document.querySelector('#request-convert-currency').addEventListener('click', manageRequestSubmitted);
+function startApp(){
+    document.querySelector('.rate-options-tabs').addEventListener('click', manageTabSelection);
+    document.querySelector('#request-exchange-rate').addEventListener('click', manageRequestSubmitted);
+    document.querySelector('#request-convert-currency').addEventListener('click', manageRequestSubmitted);
+    prepareSelectOptions();
+    establishMaxDateOnInputs();
+}
 
-prepareSelectOptions();
-establishMaxDateOnInputs();
+startApp();

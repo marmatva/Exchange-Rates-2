@@ -1,5 +1,4 @@
 import {getFromLocalStorage, saveInLocalStorage} from './storage.js'
-import {ExchangeRates, CurrencyList, ConversionRateResults} from './entities.js'
 import {requestExchangeRates, requestCurrencyConversion, requestSupportedSymbols} from './api.js'
 import { calculateConversion, getTodaysDate } from './utilities.js'
 import { mapCurrencyConversion, mapCurrencyList, mapExchangeRates } from './mapper.js';

@@ -1,6 +1,3 @@
-import {displayApiResponse, displayRateConversion, displayExchangeRates} from './ratesui.js'
-import {ConversionRateResults} from './entities.js'
-
 export function requestExchangeRates(base, date){
     let requestURL = `https://api.exchangerate.host/${date}?base=${base}&places=4`;
     return fetch(requestURL)

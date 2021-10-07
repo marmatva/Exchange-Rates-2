@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1", 
+    "test": "echo \"Error: no test specified\" && exit 1",
     "cypress-dev": "cypress open",
+    "test:jest": "jest --collect-coverage",
+    "test:dev": "jest --watch",
     "server": "http-server"
   },
   "repository": {
@@ -19,7 +21,14 @@
   },
   "homepage": "https://github.com/marmatva/Exchange-Rates-2#readme",
   "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
+    "@types/jest": "^27.0.2",
+    "babel-jest": "^27.2.4",
     "cypress": "^8.5.0",
-    "http-server": "^13.0.2"
+    "http-server": "^13.0.2",
+    "jest": "^27.2.4",
+    "jest-environment-jsdom": "^27.2.4",
+    "jsdom": "^17.0.0"
   }
 }

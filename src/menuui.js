@@ -1,8 +1,7 @@
-import {ConversionRequestParameters} from './entities.js'
 import {allowDisplayResults, removePreviousResults} from './ratesui.js'
-import {getCurrencyConversion, getExchangeRates, getSupportedSymbols} from './service.js'
-import {displayApiResponse, displayRateConversion, displayExchangeRates} from './ratesui.js'
+import {getSupportedSymbols} from './service.js'
 import { getTodaysDate } from './utilities.js'
+import {reviewInputChange} from './form.js'
 
 export function establishMaxDateOnInputs(){
     let dateInputs = document.querySelectorAll('input[type="date"]');
@@ -76,108 +75,25 @@ function displayTabSelection(tab){
     requiredSection.classList.remove('display-none');
 }
 
-export function manageRequestSubmitted(e){
-    e.preventDefault();
-    allowDisplayResults();
-    let form = e.target.parentElement;
-    let invalidInputs = validateForm(form);
-    let keys = Object.keys(invalidInputs);
-    if(keys.length!==0){
-        keys.forEach(key => showInvalidInput(invalidInputs[key]))
-        return;
-    }
-    if(form.name ==="exchange-rate-form"){
-        requestExchangeRates(form)
-    } else {requestCurrencyConversion(form)}
-
-}
-
-let invalidInputValues = {
-    select: value => value==="N/A",
-    number: value => (value==="0" || value===""),
-    date: () => false,
-    selectError: "Currency selection cannot be empty",
-    numberError: "Please select a number greater than 0",
-}
-
-function validateForm(form){
-    let inputs = form.elements;
-    let invalidInputs = {};
-    let nonSubmitInputsLength = inputs.length-1;
-    for(let i=0;i<nonSubmitInputsLength;i++){
-        let invalidInput = validateInput(inputs[i]);
-        if(invalidInput){
-            invalidInputs[`element${i}`] = invalidInput;
-        }
-    }
-    return invalidInputs;
-}
-
-function showInvalidInput(object){
+export function showInvalidInput(object){
     let element = object.element;
     if(element.classList.contains('invalid-input')){
         return;
     }
     element.classList.add('invalid-input');
-    element.addEventListener('change', reviewInputChange);
+    element.onchange=reviewInputChange;
     let error = document.createElement('p');
     error.classList.add('invalid-input-message');
     error.appendChild(document.createTextNode(object.error));
     element.parentElement.appendChild(error); 
 }
 
-function validateInput(input){
-    let key = (input.tagName === "INPUT") ? input.type : input.tagName.toLowerCase();
-    if(invalidInputValues[key](input.value)){
-        let inputObject = {};
-        inputObject.element = input;
-        inputObject.error = invalidInputValues[`${key}Error`]
-        return inputObject;
-    }
-}
-
-function reviewInputChange(e){
-    let input = e.target;
-    if(validateInput(input)){
-        return;
-    }
-    removeInvalidStyle(input);
-}
-
-function removeInvalidStyle(input){
+export function removeInvalidStyle(input){
     input.classList.remove('invalid-input');
     input.parentElement.querySelector('.invalid-input-message').remove();
 }
 
-async function requestExchangeRates(form){
-    let base = form['exchange-rates-currency'].value;
-    let date = form['exchange-rate-date'].value;
-    if(!date){
-        date = "latest"
-    }
-
-    prepareToDisplayResponse(form.parentElement);
-    let response = await getExchangeRates(base, date);
-    displayApiResponse(response, displayExchangeRates);
-}
-
-async function requestCurrencyConversion(form){
-    let amount = form['convert-currency-amount'].value;
-    let from = form['convert-currency-from'].value;
-    let to = form['convert-currency-to'].value;
-
-    let date = form['convert-currency-date'].value;
-
-    let requestParameters = new ConversionRequestParameters(from, to, amount);
-
-    if(date){requestParameters.date = date}
-
-    prepareToDisplayResponse(form.parentElement);
-    let response = await getCurrencyConversion(requestParameters);
-    displayApiResponse(response, displayRateConversion);
-}
-
-function prepareToDisplayResponse(menu){
+export function prepareToDisplayResponse(menu){
     menu.classList.add('display-none');
     displayLoadingMessage();
 }
