@@ -1,5 +1,5 @@
 import {manageTabSelection, prepareSelectOptions,establishMaxDateOnInputs} from './menuui.js'
-import {manageRequestSubmitted, requestExchangeRates, requestCurrencyConversion} from './form.js'
+import {manageRequestSubmitted} from './form.js'
 
 function startApp(){
     document.querySelector('.rate-options-tabs').addEventListener('click', manageTabSelection);

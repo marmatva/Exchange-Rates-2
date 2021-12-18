@@ -1,4 +1,4 @@
-import {removeInvalidStyle, showInvalidInput, prepareToDisplayResponse} from './menuui.js'
+import {removeInvalidStyle, showInvalidInput} from './menuui.js'
 import {allowDisplayResults} from './ratesui.js'
 import{requestExchangeRates, requestCurrencyConversion} from './formRequests.js'
 
